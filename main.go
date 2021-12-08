@@ -2,12 +2,10 @@ package which
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"os/user"
 	p "path"
 	"strings"
-	"syscall"
 )
 
 func Which(executable string) (string, error) {
@@ -33,14 +31,7 @@ func Which(executable string) (string, error) {
 			continue
 		}
 
-		mode := info.Mode()
-		stat := info.Sys().(*syscall.Stat_t)
-
-		if isExecOwner(mode) && fmt.Sprint(stat.Uid) == currentUid {
-			return path, nil
-		} else if isExecGroup(mode) && contains(currentGids, fmt.Sprint(stat.Gid)) {
-			return path, nil
-		} else if isExecOther(mode) {
+		if isExecutableBy(currentUid, currentGids, info) {
 			return path, nil
 		}
 	}
@@ -65,19 +56,4 @@ func contains(arr []string, item string) bool {
 		}
 	}
 	return false
-}
-
-// source: https://stackoverflow.com/a/60128480
-func isExecOwner(mode os.FileMode) bool {
-	return mode&0100 != 0
-}
-
-// source: https://stackoverflow.com/a/60128480
-func isExecGroup(mode os.FileMode) bool {
-	return mode&0010 != 0
-}
-
-// source: https://stackoverflow.com/a/60128480
-func isExecOther(mode os.FileMode) bool {
-	return mode&0001 != 0
 }
