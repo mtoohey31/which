@@ -7,9 +7,23 @@ import (
 )
 
 // NOTE: this test may fail depending on the system `ls` binary is placed in a different location
-func TestWhichLs(t *testing.T) {
+func TestWhichLsNameOnly(t *testing.T) {
 	actual, err := Which("ls")
 	expected := "/usr/bin/ls"
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if actual != expected {
+		t.Errorf("Path was incorrect, got: %s, wanted: %s", actual, expected)
+	}
+}
+
+func TestWhichBashFullPath(t *testing.T) {
+	actual, err := Which("/usr/bin/bash")
+	expected := "/usr/bin/bash"
 
 	if err != nil {
 		t.Error(err)

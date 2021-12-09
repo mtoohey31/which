@@ -9,10 +9,6 @@ import (
 )
 
 func Which(executable string) (string, error) {
-	path := os.Getenv("PATH")
-
-	errs := []error{}
-
 	currentUser, err := user.Current()
 	if err != nil {
 		return "", err
@@ -22,6 +18,20 @@ func Which(executable string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	info, err := os.Stat(executable)
+
+	if err != nil {
+		return "", err
+	}
+
+	if isExecutableBy(currentUid, currentGids, info) {
+		return executable, nil
+	}
+
+	path := os.Getenv("PATH")
+
+	errs := []error{}
 
 	for _, element := range strings.Split(path, ":") {
 		path := p.Join(element, executable)
