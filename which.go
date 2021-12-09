@@ -21,12 +21,14 @@ func Which(executable string) (string, error) {
 
 	info, err := os.Stat(executable)
 
-	if err != nil {
-		return "", err
-	}
+	if !errors.Is(err, os.ErrNotExist) {
+		if err != nil {
+			return "", err
+		}
 
-	if isExecutableBy(currentUid, currentGids, info) {
-		return executable, nil
+		if isExecutableBy(currentUid, currentGids, info) {
+			return executable, nil
+		}
 	}
 
 	path := os.Getenv("PATH")
