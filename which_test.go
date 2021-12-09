@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-// NOTE: this test may fail depending on the system `ls` binary is placed in a different location
+// NOTE: this test may fail depending on your system's location of the `ls` binary
 func TestWhichLsNameOnly(t *testing.T) {
 	actual, err := Which("ls")
 	expected := "/usr/bin/ls"
@@ -21,6 +21,7 @@ func TestWhichLsNameOnly(t *testing.T) {
 	}
 }
 
+// NOTE: this test may fail depending on your system's location of the `ls` binary
 func TestWhichBashFullPath(t *testing.T) {
 	actual, err := Which("/usr/bin/bash")
 	expected := "/usr/bin/bash"
