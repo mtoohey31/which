@@ -21,7 +21,7 @@ func TestWhichLsNameOnly(t *testing.T) {
 	}
 }
 
-// NOTE: this test may fail depending on your system's location of the `ls` binary
+// NOTE: this test may fail depending on your system's location of the `bash` binary
 func TestWhichBashFullPath(t *testing.T) {
 	actual, err := Which("/usr/bin/bash")
 	expected := "/usr/bin/bash"
