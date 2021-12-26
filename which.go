@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 	"os/user"
-	p "path"
+	"path"
 	"strings"
 )
 
@@ -31,12 +31,12 @@ func Which(executable string) (string, error) {
 		}
 	}
 
-	path := os.Getenv("PATH")
+	pathVar := os.Getenv("PATH")
 
 	errs := []error{}
 
-	for _, element := range strings.Split(path, ":") {
-		path := p.Join(element, executable)
+	for _, element := range strings.Split(pathVar, ":") {
+		path := path.Join(element, executable)
 		info, err := os.Stat(path)
 
 		if err != nil {
