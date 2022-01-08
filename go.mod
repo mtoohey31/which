@@ -1,3 +1,3 @@
-module github.com/mtoohey31/which
+module mtoohey.com/which
 
 go 1.17

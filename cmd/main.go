@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mtoohey31/which"
+	"mtoohey.com/which"
 )
 
 func main() {
